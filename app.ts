@@ -105,7 +105,8 @@ class UserCrud {
             <button onclick="crud.cancel(${index})">Cancel</button>
           </td>
         `;
-      } else {
+      } 
+      else {
         row.innerHTML = `
           <td>${user.first}</td>
           <td>${user.middle}</td>
@@ -127,4 +128,4 @@ class UserCrud {
 }
 
 // @ts-ignore
-window.crud = new UserCrud();
+// window.crud = new UserCrud();
