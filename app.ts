@@ -4,8 +4,6 @@ enum Roles {
   MANAGER = "Manager"
 }
 
-
-
 class User {
   constructor(
     public first: string,
@@ -19,19 +17,16 @@ class User {
   ) {}
 }
 
-
 let userData: User[] = [
   new User("Ritesh", "K", "Kumar", "ritesh@mail.com", "9876543210", Roles.USER, "HP"),
   new User("Aman", "K", "Singh", "aman@mail.com", "8765432109", Roles.MANAGER, "Mumbai"),
-  new User("Aniket", "D", "sharma", "anni123@mail.com", "9988776655", Roles.ADMIN, "UNA")
+  new User("Aniket", "D", "Sharma", "anni123@mail.com", "9988776655", Roles.ADMIN, "UNA")
 ];
-
 
 const originalData: User[] = JSON.parse(JSON.stringify(userData));
 
-
 class UserCrud {
-  private table=document.getElementById('userTable') as HTMLTableElement;
+  private table = document.getElementById('userTable') as HTMLTableElement;
   private tableBody = document.querySelector("#userTable tbody") as HTMLTableSectionElement;
   private loadBtn = document.getElementById("loadBtn") as HTMLButtonElement;
 
@@ -44,11 +39,10 @@ class UserCrud {
 
   load(): void {
     this.renderTable();
-    this.table.style.display="table";
-    this.loadBtn.innerText = "Refresh Data";
+    this.table.style.display = "table";
+    this.loadBtn.innerText = "Refresh Table"; // Edited string for clarity
   }
 
-  
   refresh(): void {
     userData = JSON.parse(JSON.stringify(originalData));
     this.renderTable();
@@ -85,7 +79,14 @@ class UserCrud {
     this.renderTable();
   }
 
+  // New function: Add a new user
+  addUser(newUser: User): void {
+    userData.push(newUser);
+    this.renderTable();
+  }
+
   private renderTable(): void {
+    // Clear the table before rendering rows
     this.tableBody.innerHTML = "";
 
     userData.forEach((user, index) => {
@@ -105,8 +106,7 @@ class UserCrud {
             <button onclick="crud.cancel(${index})">Cancel</button>
           </td>
         `;
-      } 
-      else {
+      } else {
         row.innerHTML = `
           <td>${user.first}</td>
           <td>${user.middle}</td>
