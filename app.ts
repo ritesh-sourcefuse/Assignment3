@@ -35,12 +35,43 @@ class UserCrud {
       if (this.loadBtn.innerText === "Load Data") this.load();
       else this.refresh();
     });
+
+    const addUserBtn = document.getElementById("addUserBtn") as HTMLButtonElement;
+    addUserBtn.addEventListener("click", () => {
+      this.addUser(new User(
+        "New",
+        "Test",
+        "User",
+        "test@mail.com",
+        "1234567890",
+        Roles.USER,
+        "Delhi"
+      ));
+    });
+
+    const addUserForm = document.getElementById("addUserForm") as HTMLFormElement;
+    addUserForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const newUser = new User(
+        (document.getElementById("first") as HTMLInputElement).value,
+        (document.getElementById("middle") as HTMLInputElement).value,
+        (document.getElementById("last") as HTMLInputElement).value,
+        (document.getElementById("email") as HTMLInputElement).value,
+        (document.getElementById("phone") as HTMLInputElement).value,
+        (document.getElementById("role") as HTMLSelectElement).value as Roles,
+        (document.getElementById("address") as HTMLInputElement).value
+      );
+
+      this.addUser(newUser);
+      addUserForm.reset();
+    });
   }
 
   load(): void {
     this.renderTable();
     this.table.style.display = "table";
-    this.loadBtn.innerText = "Refresh Table"; // Edited string for clarity
+    this.loadBtn.innerText = "Refresh Table";
   }
 
   refresh(): void {
@@ -79,14 +110,12 @@ class UserCrud {
     this.renderTable();
   }
 
-  // New function: Add a new user
   addUser(newUser: User): void {
     userData.push(newUser);
     this.renderTable();
   }
 
   private renderTable(): void {
-    // Clear the table before rendering rows
     this.tableBody.innerHTML = "";
 
     userData.forEach((user, index) => {

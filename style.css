@@ -2,6 +2,7 @@ body {
   font-family: Arial, sans-serif;
   padding: 20px;
 }
+
 .title {
   text-align: center;
   border: 3px solid black;
@@ -12,104 +13,97 @@ body {
   background-color: #f8f8f8;
 }
 
-
 button {
   padding: 8px 12px;
   margin: 5px;
   cursor: pointer;
-
-}
-#loadBtn {
-  display: block;
-  margin: 20px auto;
-}
-#loadBtn {
-  background-color: #ff002f;   /* Blue */
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  font-size: 16px;
   border-radius: 6px;
-  cursor: pointer;
+  font-size: 16px;
   transition: 0.3s;
 }
 
-#loadBtn:hover {
-  background-color: #b30000;   /* Darker blue */
+#loadBtn {
+  display: block;
+  margin: 20px auto;
+  background-color: #ff002f;
+  color: white;
+  border: none;
+  padding: 12px 24px;
 }
 
+#loadBtn:hover {
+  background-color: #b30000;
+}
+
+#addUserBtn {
+  display: block;
+  margin: 10px auto;
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+}
+
+#addUserBtn:hover {
+  background-color: #084298;
+}
+
+#addUserForm {
+  margin: 20px auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+#addUserForm input,
+#addUserForm select,
+#addUserForm button {
+  padding: 8px 10px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+#addUserForm button {
+  background-color: #198754;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+#addUserForm button:hover {
+  background-color: #145c32;
+}
 
 table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 15px;
+  background-color: #ffffff;
+  border: 2px solid #333;
 }
 
 th, td {
-  border: 1px solid #ccc;
-  padding: 8px;
+  border: 1px solid #888;
+  padding: 12px;
   text-align: left;
+}
+
+th {
+  background-color: #0d6efd;
+  color: white;
 }
 
 tr:nth-child(even) {
   background: #f5f5f5;
 }
 
-.edit-input {
-  width: 90%;
-  padding: 5px;
-}
-/* Table Styling */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: #ffffff; /* table background */
-  border: 2px solid #333; /* outer border */
-}
-
-th, td {
-  border: 1px solid #888;  /* cells border */
-  padding: 12px;
-  text-align: left;
-}
-
-/* Header background */
-th {
-  background-color: #0d6efd;
-  color: white;
-}
-
-/* Table Row Hover */
 tr:hover {
   background-color: #f2f2f2;
 }
 
-/* Action Buttons */
-button.edit-btn {
-  background-color: #0d6efd;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-button.delete-btn {
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-/* Refresh Button */
-#refreshBtn {
-  background-color: #0d6efd;
-  color: white;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 16px;
+.edit-input {
+  width: 90%;
+  padding: 5px;
 }
