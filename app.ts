@@ -128,4 +128,4 @@ class UserCrud {
 }
 
 // @ts-ignore
-// window.crud = new UserCrud();
+(window as any).crud = new UserCrud();
