@@ -1,8 +1,10 @@
+
 enum Roles {
-  ADMIN = "Admin",
-  USER = "User",
-  MANAGER = "Manager"
+    ADMIN = "Admin",
+    USER = "User",
+    MANAGER = "Manager"
 }
+
 
 class User {
   constructor(
@@ -17,108 +19,150 @@ class User {
   ) {}
 }
 
-let userData: User[] = [
-  new User("Ritesh", "K", "Kumar", "ritesh@mail.com", "9876543210", Roles.USER, "HP"),
-  new User("Aman", "K", "Singh", "aman@mail.com", "8765432109", Roles.MANAGER, "Mumbai"),
-  new User("Aniket", "D", "Sharma", "anni123@mail.com", "9988776655", Roles.ADMIN, "UNA")
-];
 
-const originalData: User[] = JSON.parse(JSON.stringify(userData));
-
-class UserCrud {
-  private table = document.getElementById('userTable') as HTMLTableElement;
-  private tableBody = document.querySelector("#userTable tbody") as HTMLTableSectionElement;
-  private loadBtn = document.getElementById("loadBtn") as HTMLButtonElement;
-
-  constructor() {
-    this.loadBtn.addEventListener("click", () => {
-      if (this.loadBtn.innerText === "Load Data") this.load();
-      else this.refresh();
-    });
-  }
-
-  load(): void {
-    this.renderTable();
-    this.table.style.display = "table";
-    this.loadBtn.innerText = "Refresh Table";
-  }
-
-  refresh(): void {
-    userData = JSON.parse(JSON.stringify(originalData));
-    this.renderTable();
-  }
-
-  edit(index: number): void {
-    userData[index].editing = true;
-    this.renderTable();
-  }
-
-  save(index: number): void {
-    const row = this.tableBody.children[index] as HTMLTableRowElement;
-    const inputs = row.querySelectorAll("input");
-
-    userData[index].first = (inputs[0] as HTMLInputElement).value;
-    userData[index].middle = (inputs[1] as HTMLInputElement).value;
-    userData[index].last = (inputs[2] as HTMLInputElement).value;
-    userData[index].email = (inputs[3] as HTMLInputElement).value;
-    userData[index].phone = (inputs[4] as HTMLInputElement).value;
-    userData[index].role = (inputs[5] as HTMLInputElement).value as Roles;
-    userData[index].address = (inputs[6] as HTMLInputElement).value;
-
-    userData[index].editing = false;
-    this.renderTable();
-  }
-
-  cancel(index: number): void {
-    userData[index].editing = false;
-    this.renderTable();
-  }
-
-  delete(index: number): void {
-    userData.splice(index, 1);
-    this.renderTable();
-  }
-
-  private renderTable(): void {
-    this.tableBody.innerHTML = "";
-
-    userData.forEach((user, index) => {
-      const row = document.createElement("tr");
-
-      if (user.editing) {
-        row.innerHTML = `
-          <td><input class="edit-input" value="${user.first}"></td>
-          <td><input class="edit-input" value="${user.middle}"></td>
-          <td><input class="edit-input" value="${user.last}"></td>
-          <td><input class="edit-input" value="${user.email}"></td>
-          <td><input class="edit-input" value="${user.phone}"></td>
-          <td><input class="edit-input" value="${user.role}"></td>
-          <td><input class="edit-input" value="${user.address}"></td>
-          <td>
-            <button onclick="crud.save(${index})">Save</button>
-            <button onclick="crud.cancel(${index})">Cancel</button>
-          </td>
-        `;
-      } else {
-        row.innerHTML = `
-          <td>${user.first}</td>
-          <td>${user.middle}</td>
-          <td>${user.last}</td>
-          <td>${user.email}</td>
-          <td>${user.phone}</td>
-          <td>${user.role}</td>
-          <td>${user.address}</td>
-          <td>
-            <button onclick="crud.edit(${index})">Edit</button>
-            <button onclick="crud.delete(${index})">Delete</button>
-          </td>
-        `;
-      }
-
-      this.tableBody.appendChild(row);
-    });
-  }
+interface CrudActions {
+    load(): void;
+    refresh(): void;
+    edit(index: number): void;
+    save(index: number): void;
+    cancel(index: number): void;
+    delete(index: number): void;
+    renderTable(): void;      
 }
 
-// @ts-ignore
-(window as any).crud = new UserCrud();
+
+let jsonData = [
+    { first: "Ritesh", middle: "K", last: "Kumar", email: "ritesh@mail.com", phone: "9876543210", role: "Admin", address: "HP" },
+    { first: "Aman", middle: "K", last: "Singh", email: "aman@mail.com", phone: "8765432109", role: "Manager", address: "Mumbai" },
+    { first: "Aniket", middle: "D", last: "Sharma", email: "anni123@mail.com", phone: "9988776655", role: "Admin", address: "UNA" }
+];
+
+let userData: User[] = [];
+let originalData = JSON.parse(JSON.stringify(jsonData));
+
+
+let crud: CrudActions = {
+    load: function () {
+        userData = [];
+
+        for (let i = 0; i < jsonData.length; i++) {
+            let u = jsonData[i];
+
+          
+            let roleValue: Roles = u.role as Roles;
+
+            userData.push(new User(u.first, u.middle, u.last, u.email, u.phone, roleValue, u.address));
+        }
+
+        document.getElementById("userTable")!.style.display = "table";
+        document.getElementById("loadBtn")!.innerText = "Refresh data";
+
+        crud.renderTable();
+    },
+
+    refresh: function () {
+        jsonData = JSON.parse(JSON.stringify(originalData));
+        crud.load();
+    },
+
+    edit: function (index: number) {
+        userData[index].editing = true;
+        crud.renderTable();
+    },
+
+    save: function (index: number) {
+        let row = document.getElementById("tableBody")!.children[index] as HTMLElement;
+        let inputs = row.getElementsByTagName("input");
+
+        userData[index].first = inputs[0].value;
+        userData[index].middle = inputs[1].value;
+        userData[index].last = inputs[2].value;
+        userData[index].email = inputs[3].value;
+        userData[index].phone = inputs[4].value;
+
+        
+        userData[index].role = inputs[5].value as Roles;
+
+        userData[index].address = inputs[6].value;
+
+        userData[index].editing = false;
+        crud.renderTable();
+    },
+
+    cancel: function (index: number) {
+        let d = jsonData[index];
+
+        userData[index].first = d.first;
+        userData[index].middle = d.middle;
+        userData[index].last = d.last;
+        userData[index].email = d.email;
+        userData[index].phone = d.phone;
+        userData[index].role = d.role as Roles;
+        userData[index].address = d.address;
+
+        userData[index].editing = false;
+        crud.renderTable();
+    },
+
+    delete: function (index: number) {
+        userData.splice(index, 1);
+        crud.renderTable();
+    },
+
+    renderTable: function () {
+        let body = document.getElementById("tableBody")!;
+        body.innerHTML = "";
+
+        for (let i = 0; i < userData.length; i++) {
+            let u = userData[i];
+            let row = document.createElement("tr");
+
+            if (u.editing) {
+                row.innerHTML =
+                    "<td><input value='" + u.first + "'></td>" +
+                    "<td><input value='" + u.middle + "'></td>" +
+                    "<td><input value='" + u.last + "'></td>" +
+                    "<td><input value='" + u.email + "'></td>" +
+                    "<td><input value='" + u.phone + "'></td>" +
+                    "<td><input value='" + u.role + "'></td>" +
+                    "<td><input value='" + u.address + "'></td>" +
+                    "<td>" +
+                    "<button onclick='crud.save(" + i + ")'>Save</button>" +
+                    "<button onclick='crud.cancel(" + i + ")'>Cancel</button>" +
+                    "</td>";
+            } else {
+                row.innerHTML =
+                    "<td>" + u.first + "</td>" +
+                    "<td>" + u.middle + "</td>" +
+                    "<td>" + u.last + "</td>" +
+                    "<td>" + u.email + "</td>" +
+                    "<td>" + u.phone + "</td>" +
+                    "<td>" + u.role + "</td>" +
+                    "<td>" + u.address + "</td>" +
+                    "<td>" +
+                    "<button onclick='crud.edit(" + i + ")'>Edit</button>" +
+                    "<button onclick='crud.delete(" + i + ")'>Delete</button>" +
+                    "</td>";
+            }
+
+            body.appendChild(row);
+        }
+    }
+};
+
+(document.getElementById("loadBtn") as HTMLButtonElement).onclick = function () {
+
+    const btn = this as HTMLButtonElement;   
+
+    let text = btn.innerText.trim().toLowerCase();
+
+    if (text === "load data") {
+        crud.load();
+    } else {
+        crud.refresh();
+    }
+};
+
+
+
+(window as any).crud = crud;
