@@ -1,49 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>User List - TypeScript CRUD</title>
-  <link rel="stylesheet" href="style.css">
+    <title>User List - TS CRUD</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h2 class="title">User List - TypeScript CRUD</h2>
+<h2><center>User List - TypeScript CRUD</center></h2>
 
-<button id="loadBtn">Load Data</button>
-<button id="addUserBtn">Add Sample User</button>
-
-<h3>Add New User</h3>
-<form id="addUserForm">
-  <input type="text" id="first" placeholder="First Name" required />
-  <input type="text" id="middle" placeholder="Middle Name" />
-  <input type="text" id="last" placeholder="Last Name" required />
-  <input type="email" id="email" placeholder="Email" required />
-  <input type="text" id="phone" placeholder="Phone" required />
-  <select id="role">
-    <option value="USER">User</option>
-    <option value="MANAGER">Manager</option>
-    <option value="ADMIN">Admin</option>
-  </select>
-  <input type="text" id="address" placeholder="Address" required />
-  <button type="submit">Add User</button>
-</form>
+<button id="loadBtn">Load data</button>
 
 <table id="userTable" style="display:none;">
-  <thead>
-    <tr>
-      <th>First</th>
-      <th>Middle</th>
-      <th>Last</th>
-      <th>Email</th>
-      <th>Phone</th>
-      <th>Role</th>
-      <th>Address</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody></tbody>
+    <thead>
+        <tr>
+            <th>First</th>
+            <th>Middle</th>
+            <th>Last</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Role</th>
+            <th>Address</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
 </table>
 
-<script src="app.js" defer></script>
+<script src="app.js"></script>
+
 </body>
 </html>
