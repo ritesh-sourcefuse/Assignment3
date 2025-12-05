@@ -55,7 +55,7 @@ let crud: CrudActions = {
         }
 
         document.getElementById("userTable")!.style.display = "table";
-        document.getElementById("loadBtn")!.innerText = "Refresh data";
+        document.getElementById("loadBtn")!.innerText = "Refresh data"; // work on condition
 
         crud.renderTable();
     },
@@ -70,24 +70,27 @@ let crud: CrudActions = {
         crud.renderTable();
     },
 
-    save: function (index: number) {
-        let row = document.getElementById("tableBody")!.children[index] as HTMLElement;
-        let inputs = row.getElementsByTagName("input");
+   save: function (index: number) {
+    let row = document.getElementById("tableBody")!.children[index] as HTMLElement;
 
-        userData[index].first = inputs[0].value;
-        userData[index].middle = inputs[1].value;
-        userData[index].last = inputs[2].value;
-        userData[index].email = inputs[3].value;
-        userData[index].phone = inputs[4].value;
+    let inputs = row.getElementsByTagName("input");// here we take input
+    let select = row.querySelector<HTMLSelectElement>("select[name='role']")!;
 
-        
-        userData[index].role = inputs[5].value as Roles;
+    userData[index].first = inputs[0].value;
+    userData[index].middle = inputs[1].value;
+    userData[index].last = inputs[2].value;
+    userData[index].email = inputs[3].value;
+    userData[index].phone = inputs[4].value;
 
-        userData[index].address = inputs[6].value;
+    userData[index].role = select.value as Roles;   // FIXED
 
-        userData[index].editing = false;
-        crud.renderTable();
-    },
+    userData[index].address = inputs[5].value;
+
+    userData[index].editing = false;
+        jsonData[index] = { ...userData[index] };
+    crud.renderTable();
+},
+
 
     cancel: function (index: number) {
         let d = jsonData[index];
@@ -100,7 +103,7 @@ let crud: CrudActions = {
         userData[index].role = d.role as Roles;
         userData[index].address = d.address;
 
-        userData[index].editing = false;
+        userData[index].editing = false; // editing mode off 
         crud.renderTable();
     },
 
@@ -111,10 +114,10 @@ let crud: CrudActions = {
 
     renderTable: function () {
         let body = document.getElementById("tableBody")!;
-        body.innerHTML = "";
+        body.innerHTML = ""; //clear the information and create new table 
 
         for (let i = 0; i < userData.length; i++) {
-            let u = userData[i];
+            let u = userData[i]; 
             let row = document.createElement("tr");
 
             if (u.editing) {
@@ -124,7 +127,11 @@ let crud: CrudActions = {
                     "<td><input value='" + u.last + "'></td>" +
                     "<td><input value='" + u.email + "'></td>" +
                     "<td><input value='" + u.phone + "'></td>" +
-                    "<td><input value='" + u.role + "'></td>" +
+                    `<td><select name="role">
+            ${Object.values(Roles)
+              .map(r => `<option value="${r}" ${r === u.role ? "selected" : ""}>${r}</option>`)
+              .join("")}
+          </select></td>` +
                     "<td><input value='" + u.address + "'></td>" +
                     "<td>" +
                     "<button onclick='crud.save(" + i + ")'>Save</button>" +
@@ -153,7 +160,7 @@ let crud: CrudActions = {
 (document.getElementById("loadBtn") as HTMLButtonElement).onclick = function () {
 
     const btn = this as HTMLButtonElement;   
-
+    
     let text = btn.innerText.trim().toLowerCase();
 
     if (text === "load data") {

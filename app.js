@@ -1,40 +1,46 @@
-// enum for roles
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var Roles;
 (function (Roles) {
     Roles["ADMIN"] = "Admin";
     Roles["USER"] = "User";
     Roles["MANAGER"] = "Manager";
 })(Roles || (Roles = {}));
-// basic user class
 var User = /** @class */ (function () {
-    function User(f, m, l, e, p, r, a) {
-        this.editing = false;
-        this.first = f;
-        this.middle = m;
-        this.last = l;
-        this.email = e;
-        this.phone = p;
-        this.role = r;
-        this.address = a;
+    function User(first, middle, last, email, phone, role, address, editing) {
+        if (editing === void 0) { editing = false; }
+        this.first = first;
+        this.middle = middle;
+        this.last = last;
+        this.email = email;
+        this.phone = phone;
+        this.role = role;
+        this.address = address;
+        this.editing = editing;
     }
     return User;
 }());
-// JSON data (must match enum exactly)
 var jsonData = [
     { first: "Ritesh", middle: "K", last: "Kumar", email: "ritesh@mail.com", phone: "9876543210", role: "Admin", address: "HP" },
     { first: "Aman", middle: "K", last: "Singh", email: "aman@mail.com", phone: "8765432109", role: "Manager", address: "Mumbai" },
     { first: "Aniket", middle: "D", last: "Sharma", email: "anni123@mail.com", phone: "9988776655", role: "Admin", address: "UNA" }
 ];
-// convert json to user objects
 var userData = [];
 var originalData = JSON.parse(JSON.stringify(jsonData));
-// simple crud object
 var crud = {
     load: function () {
         userData = [];
         for (var i = 0; i < jsonData.length; i++) {
             var u = jsonData[i];
-            // FIXED: cast JSON role to enum safely
             var roleValue = u.role;
             userData.push(new User(u.first, u.middle, u.last, u.email, u.phone, roleValue, u.address));
         }
@@ -53,15 +59,16 @@ var crud = {
     save: function (index) {
         var row = document.getElementById("tableBody").children[index];
         var inputs = row.getElementsByTagName("input");
+        var select = row.querySelector("select[name='role']");
         userData[index].first = inputs[0].value;
         userData[index].middle = inputs[1].value;
         userData[index].last = inputs[2].value;
         userData[index].email = inputs[3].value;
         userData[index].phone = inputs[4].value;
-        // FIXED: casting input value to enum
-        userData[index].role = inputs[5].value;
-        userData[index].address = inputs[6].value;
+        userData[index].role = select.value; // ✔ FIXED
+        userData[index].address = inputs[5].value;
         userData[index].editing = false;
+        jsonData[index] = __assign({}, userData[index]);
         crud.renderTable();
     },
     cancel: function (index) {
@@ -83,7 +90,7 @@ var crud = {
     renderTable: function () {
         var body = document.getElementById("tableBody");
         body.innerHTML = "";
-        for (var i = 0; i < userData.length; i++) {
+        var _loop_1 = function (i) {
             var u = userData[i];
             var row = document.createElement("tr");
             if (u.editing) {
@@ -93,7 +100,9 @@ var crud = {
                         "<td><input value='" + u.last + "'></td>" +
                         "<td><input value='" + u.email + "'></td>" +
                         "<td><input value='" + u.phone + "'></td>" +
-                        "<td><input value='" + u.role + "'></td>" +
+                        "<td><select name=\"role\">\n            ".concat(Object.values(Roles)
+                            .map(function (r) { return "<option value=\"".concat(r, "\" ").concat(r === u.role ? "selected" : "", ">").concat(r, "</option>"); })
+                            .join(""), "\n          </select></td>") +
                         "<td><input value='" + u.address + "'></td>" +
                         "<td>" +
                         "<button onclick='crud.save(" + i + ")'>Save</button>" +
@@ -115,11 +124,14 @@ var crud = {
                         "</td>";
             }
             body.appendChild(row);
+        };
+        for (var i = 0; i < userData.length; i++) {
+            _loop_1(i);
         }
     }
 };
 document.getElementById("loadBtn").onclick = function () {
-    var btn = this; // 👈 FIX
+    var btn = this;
     var text = btn.innerText.trim().toLowerCase();
     if (text === "load data") {
         crud.load();
@@ -128,5 +140,4 @@ document.getElementById("loadBtn").onclick = function () {
         crud.refresh();
     }
 };
-// allow HTML buttons to access crud
 window.crud = crud;
