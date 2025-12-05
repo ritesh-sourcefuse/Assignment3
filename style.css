@@ -1,109 +1,83 @@
-body {
-  font-family: Arial, sans-serif;
-  padding: 20px;
-}
+ /* Center the Load Button */
+    #loadBtn {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 25px;
+        font-size: 18px;
+        background: brown;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+    }
 
-.title {
-  text-align: center;
-  border: 3px solid black;
-  padding: 10px;
-  width: 25%;
-  margin: 20px auto;
-  border-radius: 5px;
-  background-color: #f8f8f8;
-}
+    #loadBtn:hover {
+        background: red;
+    }
 
-button {
-  padding: 8px 12px;
-  margin: 5px;
-  cursor: pointer;
-  border-radius: 6px;
-  font-size: 16px;
-  transition: 0.3s;
-}
+    /* Table Styling */
+    table {
+        width: 90%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        font-family: Arial;
+        font-size: 16px;
+    }
 
-#loadBtn {
-  display: block;
-  margin: 20px auto;
-  background-color: #ff002f;
-  color: white;
-  border: none;
-  padding: 12px 24px;
-}
+    th {
+        background: #343a40;
+        color: white;
+        padding: 12px;
+        text-align: center;
+    }
 
-#loadBtn:hover {
-  background-color: #b30000;
-}
+    td {
+        padding: 10px;
+        text-align: center;
+    }
 
-#addUserBtn {
-  display: block;
-  margin: 10px auto;
-  background-color: #0d6efd;
-  color: white;
-  border: none;
-  padding: 12px 24px;
-}
+    tr:nth-child(even) {
+        background: #f2f2f2;
+    }
 
-#addUserBtn:hover {
-  background-color: #084298;
-}
+    tr:nth-child(odd) {
+        background: #ffffff;
+    }
 
-#addUserForm {
-  margin: 20px auto;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-}
+    tr:hover {
+        background: #d6e4ff;
+    }
 
-#addUserForm input,
-#addUserForm select,
-#addUserForm button {
-  padding: 8px 10px;
-  font-size: 14px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
+    /* Buttons inside table */
+    button {
+        padding: 6px 12px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 2px;
+    }
 
-#addUserForm button {
-  background-color: #198754;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
+    button:hover {
+        opacity: 0.8;
+    }
 
-#addUserForm button:hover {
-  background-color: #145c32;
-}
+    .edit-btn {
+        background: #ffc107;
+        color: black;
+    }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 15px;
-  background-color: #ffffff;
-  border: 2px solid #333;
-}
+    .delete-btn {
+        background: #dc3545;
+        color: white;
+    }
 
-th, td {
-  border: 1px solid #888;
-  padding: 12px;
-  text-align: left;
-}
+    .save-btn {
+        background: #28a745;
+        color: white;
+    }
 
-th {
-  background-color: #0d6efd;
-  color: white;
-}
+    .cancel-btn {
+        background: #6c757d;
+        color: white;
+    }
 
-tr:nth-child(even) {
-  background: #f5f5f5;
-}
-
-tr:hover {
-  background-color: #f2f2f2;
-}
-
-.edit-input {
-  width: 90%;
-  padding: 5px;
-}
